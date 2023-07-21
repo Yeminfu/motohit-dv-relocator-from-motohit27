@@ -24,7 +24,6 @@ let defaultLinks = true && [
     await browser.close();
 })();
 
-
 async function getLinksFromSidebar(page) {
     return await page.evaluate(function () {
         const linksFromNavbarNodes = document.querySelectorAll('.position-sticky a')
