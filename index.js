@@ -6,12 +6,20 @@ import defaultLinks from './db/defaultLinks.json.js';
 import getDataFromProductPage from './tools/getDataFromProductPage.js';
 import transliterator from './tools/transliterator.js';
 import slugify from 'slugify';
+import db_connection from './tools/dbConnect.js';
 
 let defaultLinksIsOn = false;
 console.log('go go go!');
 
 (async function createProductInDB(category_name) {
     console.log(category_name);
+
+    db_connection.query("SELECT * FROM products", function (err, data) {
+        console.log('err', err);
+        // console.log('data', data);
+    })
+
+
     const link = "https://мотохит27.рф/product/hilton-junior-купить-электросамокат/";
     const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'], });
     const page = await browser.newPage();
@@ -20,7 +28,7 @@ console.log('go go go!');
     console.log(dataFromProductPage);
     const values = [
         ["product_name", dataFromProductPage.product_name],
-        ["slug", `"${slugify(transliterator(dataFromProductPage.product_name.replace(/[^ a-zA-Zа-яА-Я0-9-]/igm,"")))}"`],
+        ["slug", `"${slugify(transliterator(dataFromProductPage.product_name.replace(/[^ a-zA-Zа-яА-Я0-9-]/igm, "")))}"`],
         ["description", `"${dataFromProductPage.description}"`],
         ["price", dataFromProductPage.price],
         ["category", `"someshing"`],
