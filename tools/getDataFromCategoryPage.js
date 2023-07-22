@@ -24,5 +24,6 @@ export default async function getProductsFromCategoryPage(page, link) {
 
         return productsNodesArrayWithContent;
     });
+    // callback()
     return products;
 }
