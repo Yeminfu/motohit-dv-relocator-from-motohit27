@@ -7,20 +7,34 @@ export default async function getDataFromProductPage(link, page) {
 
         const imagesLinks = Array.from(document.querySelectorAll('#big-pic, .moto-slider-shorts img')).map(el => el.src).filter((value, index, array) => { return array.indexOf(value) === index; });
 
-        const cols = document.querySelectorAll('.col-md-6');
-        const colsArr = Array.from(cols);
-        const descriptionArea = colsArr
-            .find(div => div.querySelector('.h4')?.innerText === 'Описание')
-            .querySelector('.col-lg');
-        const childrenOfDescriptionArea = Array.from(descriptionArea.children);
-        const validChildren = childrenOfDescriptionArea.filter(element => {
-            return !((element.querySelector('.h4')?.innerText) === 'Описание')
-        });
-        const childrenHtml = validChildren
-            .map(children => children.outerHTML)
-            .join("\n");
+        const description = (() => {
+            try {
+                const cols = document.querySelectorAll('.col-md-6');
+                const colsArr = Array.from(cols);
 
-        const description = childrenHtml;
+                const descriptionArea = colsArr
+                    .find(div => div.querySelector('.h4')?.innerText === 'Описание')
+                    .querySelector('.col-lg');
+
+                const childrenOfDescriptionArea = Array.from(descriptionArea.children);
+                const validChildrenIfDescriptionArea = childrenOfDescriptionArea.filter(element => {
+                    return !((element.querySelector('.h4')?.innerText) === 'Описание')
+                });
+
+                const childrenHtml = validChildrenIfDescriptionArea
+                    .map(children => children.outerHTML)
+                    .join("\n");
+
+                const description = childrenHtml;
+                return description;
+            } catch (error) {
+                console.log('Нет описания');
+            }
+
+        })();
+
+
+
 
         const priceText = document.querySelector('span.h5.font-weight-bold.r_price')?.innerText.replace(/[^0-9]/img, '');
         const price = priceText ? Number(priceText) : null;
@@ -42,7 +56,6 @@ export default async function getDataFromProductPage(link, page) {
             price,
             attributes,
         }
-
     });
     return productData;
 }

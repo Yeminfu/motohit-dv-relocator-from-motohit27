@@ -1,7 +1,7 @@
 import puppeteer from 'puppeteer';
 import getLinksFromSidebar from './tools/getLinksFromSidebar.js';
 import getDataFromCategoryPage from './tools/getDataFromCategoryPage.js';
-import cleardbFolder from './tools/cleardbFolder.js';
+// import cleardbFolder from './tools/cleardbFolder.js';
 import defaultLinks from './db/defaultLinks.json.js';
 import getDataFromProductPage from './tools/getDataFromProductPage.js';
 
@@ -11,7 +11,7 @@ console.log('gonax!');
 (async () => {
 
 
-    cleardbFolder();
+    // cleardbFolder();
 
     const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'], });
     const page = await browser.newPage();
