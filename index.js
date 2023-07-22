@@ -5,7 +5,7 @@ import cleardbFolder from './tools/cleardbFolder.js';
 import defaultLinks from './defaultLinks.json.js';
 import getDataFromProductPage from './tools/getDataFromProductPage.js';
 
-let defaultLinksIsOn = true;
+let defaultLinksIsOn = false;
 console.log('gonax!');
 
 (async () => {
