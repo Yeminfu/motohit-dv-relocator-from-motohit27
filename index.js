@@ -3,6 +3,7 @@ import getLinksFromSidebar from './tools/getLinksFromSidebar.js';
 import getDataFromCategoryPage from './tools/getDataFromCategoryPage.js';
 import cleardbFolder from './tools/cleardbFolder.js';
 import defaultLinks from './defaultLinks.json.js';
+import getDataFromProductPage from './tools/getDataFromProductPage.js';
 
 let defaultLinksIsOn = true;
 console.log('gonax!');
@@ -26,14 +27,18 @@ console.log('gonax!');
         links = await getLinksFromSidebar(page);
     }
 
+    const productsLinks = [];
     for (let index = 0; index < links.length; index++) {
         const link = links[index];
-        const { category_name, products } = await getDataFromCategoryPage(page, link);
-
+        const { products } = await getDataFromCategoryPage(page, link);
         if (!products) continue;
+        productsLinks.push(...products);
+    }
 
-        console.log(category_name, products);
-
+    for (let index = 0; index < productsLinks.length; index++) {
+        const { link, product_name, category_name } = productsLinks[index];
+        const dataFromProductPage = await getDataFromProductPage(link, page);
+        console.log('dataFromProductPage', dataFromProductPage);
     }
 
     await browser.close();
