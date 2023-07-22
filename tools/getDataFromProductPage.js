@@ -7,7 +7,6 @@ export default async function getDataFromProductPage(link, page) {
 
         const imagesLinks = Array.from(document.querySelectorAll('#big-pic, .moto-slider-shorts img')).map(el => el.src).filter((value, index, array) => { return array.indexOf(value) === index; });
 
-
         const cols = document.querySelectorAll('.col-md-6');
         const colsArr = Array.from(cols);
         const descriptionArea = colsArr
@@ -23,13 +22,17 @@ export default async function getDataFromProductPage(link, page) {
 
         const description = childrenHtml;
 
+        const priceText = document.querySelector('span.h5.font-weight-bold.r_price')?.innerText.replace(/[^0-9]/img, '');
+        const price = priceText ? Number(priceText) : null;
+
 
         return {
             product_name: document.querySelector('h1').innerText,
             imagesLinks,
-            description
+            description,
+            price,
         }
+
     });
     return productData;
 }
-
