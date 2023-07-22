@@ -27,9 +27,10 @@ console.log('gonax!');
 
     for (let index = 0; index < links.length; index++) {
         const link = links[index];
-        console.log(link);
-        const products = await getDataFromCategoryPage(page, link);
-        console.log('products', products);
+        // console.log(link);
+        const { category_name, products } = await getDataFromCategoryPage(page, link);
+        // console.log('products', products);
+        console.log({ category_name, products: products?.length });
     }
 
     await browser.close();

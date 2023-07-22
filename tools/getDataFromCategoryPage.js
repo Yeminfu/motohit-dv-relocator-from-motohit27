@@ -3,6 +3,7 @@ export default async function getProductsFromCategoryPage(page, link) {
 
     await page.waitForSelector('h1');
 
+    const category_name = await page.evaluate(() => document.querySelector('h1').innerText);
     const products = await page.evaluate(function () {
 
         if (document.querySelector('.categorys')) return null;
@@ -24,6 +25,5 @@ export default async function getProductsFromCategoryPage(page, link) {
 
         return productsNodesArrayWithContent;
     });
-    // callback()
-    return products;
+    return { category_name, products };
 }
