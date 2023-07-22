@@ -2,7 +2,7 @@ import puppeteer from 'puppeteer';
 import getLinksFromSidebar from './tools/getLinksFromSidebar.js';
 import getDataFromCategoryPage from './tools/getDataFromCategoryPage.js';
 import cleardbFolder from './tools/cleardbFolder.js';
-import defaultLinks from './defaultLinks.json.js';
+import defaultLinks from './db/defaultLinks.json.js';
 import getDataFromProductPage from './tools/getDataFromProductPage.js';
 
 let defaultLinksIsOn = false;
