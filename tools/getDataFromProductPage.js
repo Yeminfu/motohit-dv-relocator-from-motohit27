@@ -25,12 +25,22 @@ export default async function getDataFromProductPage(link, page) {
         const priceText = document.querySelector('span.h5.font-weight-bold.r_price')?.innerText.replace(/[^0-9]/img, '');
         const price = priceText ? Number(priceText) : null;
 
+        const attributesTableNode = document.querySelector('table.table.table-sm.table-bordered');
+        const rowsNodes = attributesTableNode?.querySelectorAll('tbody tr');
+        const attributes = rowsNodes ?
+            Array.from(rowsNodes).map(x => ({
+                attribute: x.querySelectorAll('td')[0].innerText,
+                value: x.querySelectorAll('td')[1].innerText,
+            }))
+            : null;
+
 
         return {
             product_name: document.querySelector('h1').innerText,
             imagesLinks,
             description,
             price,
+            attributes,
         }
 
     });
