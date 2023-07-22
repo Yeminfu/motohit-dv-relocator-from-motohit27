@@ -12,28 +12,44 @@ let defaultLinksIsOn = false;
 console.log('go go go!');
 
 (async function createProductInDB(category_name) {
-    console.log(category_name);
 
-    db_connection.query("SELECT * FROM products", function (err, data) {
-        console.log('err', err);
-        // console.log('data', data);
-    })
-
+    const categoryId = await (async () => {
+        const category = await new Promise(r => db_connection.query(`SELECT * FROM categories WHERE category_name="${category_name}"`, function (err, data) {
+            if (!data) r(null);
+            if (!data[0]) r(null)
+            r(data[0].id);
+        }));
+        return category;
+    })();
 
     const link = "https://мотохит27.рф/product/hilton-junior-купить-электросамокат/";
     const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'], });
     const page = await browser.newPage();
 
     const dataFromProductPage = await getDataFromProductPage(link, page);
-    console.log(dataFromProductPage);
+    // console.log(dataFromProductPage);
     const values = [
         ["product_name", dataFromProductPage.product_name],
         ["slug", `"${slugify(transliterator(dataFromProductPage.product_name.replace(/[^ a-zA-Zа-яА-Я0-9-]/igm, "")))}"`],
         ["description", `"${dataFromProductPage.description}"`],
         ["price", dataFromProductPage.price],
-        ["category", `"someshing"`],
+        ["category", categoryId],
     ];
-    console.log({ values });
+
+    const qs = `INSERT INTO products ( ${values.map(x => x[0])} ) VALUES ( ${values.map(x => x[1])} )`;
+
+
+    db_connection.query(qs, function (err, data) {
+        console.log('data', data);
+        console.log('err', err);
+
+        // if (!data) r(null);
+        // if (!data[0]) r(null)
+        // r(data[0].id);
+    });
+
+    // console.log({ values, qs });
+    console.log(qs);
 
     // "INSERT INTO products (	product_name, slug, description, price, category)"
     await browser.close();
