@@ -9,6 +9,7 @@ console.log('gonax!');
 
 (async () => {
 
+
     cleardbFolder();
 
     const browser = await puppeteer.launch({ headless: "new" });
@@ -27,11 +28,14 @@ console.log('gonax!');
 
     for (let index = 0; index < links.length; index++) {
         const link = links[index];
-        // console.log(link);
         const { category_name, products } = await getDataFromCategoryPage(page, link);
-        // console.log('products', products);
-        console.log({ category_name, products: products?.length });
+
+        if (!products) continue;
+
+        console.log(category_name, products);
+
     }
 
     await browser.close();
+
 })();
