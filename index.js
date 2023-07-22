@@ -30,13 +30,16 @@ console.log('gonax!');
     const productsLinks = [];
     for (let index = 0; index < links.length; index++) {
         const link = links[index];
-        const { products } = await getDataFromCategoryPage(page, link);
+        console.log('link', link);
+        const { products, ...asd } = await getDataFromCategoryPage(page, link);
+        console.log({ products, asd });
         if (!products) continue;
         productsLinks.push(...products);
     }
 
     for (let index = 0; index < productsLinks.length; index++) {
         const { link, product_name, category_name } = productsLinks[index];
+        console.log({ link, product_name, category_name });
         const dataFromProductPage = await getDataFromProductPage(link, page);
         console.log('dataFromProductPage', dataFromProductPage);
     }
