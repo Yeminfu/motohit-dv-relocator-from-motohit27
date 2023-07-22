@@ -51,17 +51,17 @@ export default async function getDataFromProductPage(link, page) {
                 value: x.querySelectorAll('td')[1].innerText,
             }))
             : null;
-    
+            // dataFromProductPage;
         const iframe = document.querySelector('iframe'); // YOUTUBE
         const youtubeLink = iframe ? iframe.src : null
     
         const outputData = {
             product_name: document.querySelector('h1')?.innerText,
-            imagesLinks,
             description,
             price,
-            attributes,
             youtubeLink,
+            attributes,
+            imagesLinks,
         };
     
         // return outputData.youtubeLink;
