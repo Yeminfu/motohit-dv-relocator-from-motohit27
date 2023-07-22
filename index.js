@@ -84,6 +84,7 @@ async function createProductInDB(category_name, dataFromProductPage) {
     const qs = `INSERT INTO products ( ${values.map(x => x[0]).join(", ")} ) VALUES ( ${values.map(x => x[1]).join(", ")} )`;
 
     const productId = await new Promise(r => db_connection.query(qs, function (err, data) {
+        console.log('err', err);
         r(data.insertId);
     }));
 
