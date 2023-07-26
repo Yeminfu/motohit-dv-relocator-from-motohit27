@@ -6,16 +6,21 @@ import defaultLinks from './db/defaultLinks.json.js';
 import getDataFromProductPage from './tools/getDataFromProductPage.js';
 
 import createProductInDB from './tools/createProductInDB.js';
+import * as cheerio from 'cheerio';
+
+
 
 let defaultLinksIsOn = false;
 console.log('go go go!');
 
 
 
+
+
 (async () => {
 
 
-    // return;
+    return;
 
 
     // cleardbFolder();
