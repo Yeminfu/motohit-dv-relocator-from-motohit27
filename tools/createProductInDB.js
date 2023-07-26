@@ -13,10 +13,19 @@ export default async function createProductInDB(category_name, dataFromProductPa
         return category;
     })();
 
+
+    const $ = cheerio.load(dataFromProductPage.description);
+
+    $('html').find('*').each(function () {
+        $(this).removeAttr('class')
+    });
+
+    const description = $.html();
+
     const values = [
         ["product_name", `"${dataFromProductPage.product_name}"`],
         ["slug", `"${slugify(transliterator(dataFromProductPage.product_name.replace(/[^ a-zA-Zа-яА-Я0-9-]/igm, "")))}"`],
-        ["description", `"${dataFromProductPage.description}"`],
+        ["description", `"${description}"`],
         ["price", dataFromProductPage.price],
         ["category", categoryId],
     ];
