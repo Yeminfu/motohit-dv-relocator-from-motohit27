@@ -1,6 +1,7 @@
 import transliterator from './transliterator.js';
 import slugify from 'slugify';
 import db_connection from './dbConnect.js';
+import * as cheerio from 'cheerio';
 
 export default async function createProductInDB(category_name, dataFromProductPage) {
 
