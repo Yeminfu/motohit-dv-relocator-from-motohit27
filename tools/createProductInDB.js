@@ -24,6 +24,11 @@ export default async function createProductInDB(category_name, dataFromProductPa
         })()
         : null;
 
+    console.log('price>>>', {
+        'dataFromProductPage.price': dataFromProductPage.price,
+        'dataFromProductPage.price ? dataFromProductPage.price : 0': dataFromProductPage.price ? dataFromProductPage.price : 0,
+    });
+
     const values = [
         ["product_name", `"${dataFromProductPage.product_name}"`],
         ["slug", `"${slugify(transliterator(dataFromProductPage.product_name.replace(/[^ a-zA-Zа-яА-Я0-9-]/igm, "")))}"`],
