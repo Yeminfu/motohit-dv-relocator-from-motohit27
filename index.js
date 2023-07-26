@@ -42,23 +42,25 @@ console.log('go go go!');
     const productsLinks = [];
     for (let index = 0; index < links.length; index++) {
         const link = links[index];
-        console.log('link', link);
+        console.log(`category ${index} from ${links.length - 1}`);
+        // console.log('link', link);
         const { products, ...asd } = await getDataFromCategoryPage(page, link);
-        console.log({ products, asd });
+        // console.log({ products, asd });
         if (!products) continue;
         productsLinks.push(...products);
     }
 
     for (let index = 0; index < productsLinks.length; index++) {
         const { link, product_name, category_name } = productsLinks[index];
-        console.log({ link, product_name, category_name });
+        // console.log({ link, product_name, category_name });
+        console.log(`product ${index} from ${productsLinks.length - 1}`);
         const dataFromProductPage = await getDataFromProductPage(link, page);
 
 
         createProductInDB(category_name, dataFromProductPage, page)
 
 
-        console.log('dataFromProductPage', dataFromProductPage);
+        // console.log('dataFromProductPage', dataFromProductPage);
     }
 
     await browser.close();

@@ -24,11 +24,11 @@ export default async function createProductInDB(category_name, dataFromProductPa
         })()
         : null;
 
-    console.log('checkvalues>>>', {
-        'dataFromProductPage.price': dataFromProductPage.price,
-        'dataFromProductPage.price ? dataFromProductPage.price : 0': dataFromProductPage.price ? dataFromProductPage.price : 0,
-        'description': description,
-    });
+    // console.log('checkvalues>>>', {
+    //     'dataFromProductPage.price': dataFromProductPage.price,
+    //     'dataFromProductPage.price ? dataFromProductPage.price : 0': dataFromProductPage.price ? dataFromProductPage.price : 0,
+    //     'description': description,
+    // });
 
     const values = [
         ["product_name", `${JSON.stringify(dataFromProductPage.product_name)}`],
@@ -40,7 +40,7 @@ export default async function createProductInDB(category_name, dataFromProductPa
 
     const qs = `INSERT INTO products ( ${values.map(x => x[0]).join(", ")} ) VALUES ( ${values.map(x => x[1]).join(", ")} )`;
 
-    console.log(qs);
+    // console.log(qs);
 
     const productId = await new Promise(r => db_connection.query(qs, function (err, data) {
         if (err) {
@@ -49,7 +49,7 @@ export default async function createProductInDB(category_name, dataFromProductPa
         r(data.insertId);
     }));
 
-    console.log('productId', productId);
+    // console.log('productId', productId);
     return productId;
 
 }
