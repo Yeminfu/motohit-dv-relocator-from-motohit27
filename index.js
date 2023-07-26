@@ -20,7 +20,7 @@ console.log('go go go!');
 (async () => {
 
 
-    return;
+    // return;
 
 
     // cleardbFolder();
