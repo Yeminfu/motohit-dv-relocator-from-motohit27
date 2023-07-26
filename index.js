@@ -17,7 +17,6 @@ console.log('go go go!');
 
 (async () => {
 
-    await db_connection;
 
     const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'], });
     const page = await browser.newPage();
