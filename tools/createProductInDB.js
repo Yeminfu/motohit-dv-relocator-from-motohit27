@@ -1,6 +1,6 @@
 import transliterator from './transliterator.js';
 import slugify from 'slugify';
-import db_connection from './tools/dbConnect.js';
+import db_connection from './dbConnect.js';
 
 export default async function createProductInDB(category_name, dataFromProductPage) {
 
