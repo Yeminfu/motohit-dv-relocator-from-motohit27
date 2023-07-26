@@ -14,13 +14,15 @@ export default async function createProductInDB(category_name, dataFromProductPa
     })();
 
 
-    const $ = cheerio.load(dataFromProductPage.description);
-
-    $('html').find('*').each(function () {
-        $(this).removeAttr('class')
-    });
-
-    const description = $.html();
+    const description = !!dataFromProductPage.description
+        ? (() => {
+            const $ = cheerio.load(dataFromProductPage.description);
+            $('html').find('*').each(function () {
+                $(this).removeAttr('class')
+            });
+            return $.html();
+        })()
+        : null;
 
     const values = [
         ["product_name", `"${dataFromProductPage.product_name}"`],
