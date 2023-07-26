@@ -28,7 +28,7 @@ export default async function createProductInDB(category_name, dataFromProductPa
         ["product_name", `"${dataFromProductPage.product_name}"`],
         ["slug", `"${slugify(transliterator(dataFromProductPage.product_name.replace(/[^ a-zA-Zа-яА-Я0-9-]/igm, "")))}"`],
         ["description", `"${description}"`],
-        ["price", dataFromProductPage.price],
+        ["price", dataFromProductPage.price ? dataFromProductPage.price : 0],
         ["category", categoryId],
     ];
 
