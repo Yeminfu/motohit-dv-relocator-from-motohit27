@@ -20,7 +20,7 @@ export default async function createProductInDB(category_name, dataFromProductPa
             const $ = cheerio.load(html);
             $('*').removeAttr('');
             $('html, head, body').remove();
-            return $.html();
+            return JSON.stringify($.html());
         })()
         : null;
 
