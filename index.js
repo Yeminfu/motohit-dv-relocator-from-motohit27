@@ -1,29 +1,17 @@
 import puppeteer from 'puppeteer';
 import getLinksFromSidebar from './tools/getLinksFromSidebar.js';
 import getDataFromCategoryPage from './tools/getDataFromCategoryPage.js';
-// import cleardbFolder from './tools/cleardbFolder.js';
 import defaultLinks from './db/defaultLinks.json.js';
 import getDataFromProductPage from './tools/getDataFromProductPage.js';
 
 import createProductInDB from './tools/createProductInDB.js';
-import * as cheerio from 'cheerio';
-
-
+import db_connection from './tools/dbConnect.js';
 
 let defaultLinksIsOn = false;
 console.log('go go go!');
 
 
-
-
-
 (async () => {
-
-
-    // return;
-
-
-    // cleardbFolder();
 
     const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'], });
     const page = await browser.newPage();
@@ -59,13 +47,10 @@ console.log('go go go!');
 
         createProductInDB(category_name, dataFromProductPage, page)
 
-
         // console.log('dataFromProductPage', dataFromProductPage);
     }
 
     await browser.close();
+    await db_connection();
 
 })();
-
-
-
