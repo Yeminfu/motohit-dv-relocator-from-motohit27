@@ -39,8 +39,10 @@ export default async function attributesWorker(attribute, attributeValue, catego
 
 
     let attributeValueId = await new Promise(r => {
+        const query = `INSERT INTO products (attribute, value_name) VALUES (?, ?)`;
+        const values = [attributeId, attributeValue];
         db_connection.query(
-            `INSERT INTO attributes_values (attribute, value_name) VALUES ("${attributeId}", "${attributeValue}")`,
+            query, values,
             function (err, res) {
                 if (err) console.log('err', err);
                 if (res) {
