@@ -6,11 +6,27 @@ export default async function attributesWorker(attribute, attributeValue, catego
         db_connection.query(
             `INSERT INTO attributes (attribute_name, category) VALUES ("${attribute}", "${categoryId}")`,
             function (err, res) {
-                if (err) console.log('attributesWorker err attributeExists #adk3nc0', err);
+                if (err?.code !== "ER_DUP_ENTRY") console.log('attributesWorker err attributeExists #adk3nc0', err);
                 if (res) {
                     r(res.insertId)
                 } else {
-                    r(null);
+                    // r(null);
+                    if (err.code === "ER_DUP_ENTRY") {
+                        db_connection.query(
+                            `SELECT * FROM attributes WHERE category = ${categoryId} AND attribute_name = "${attribute}"`,
+                            function (err, res) {
+                                if (err) console.log('attributesWorker err attributeExists #adk3nc0', err);
+                                if (res?.length) {
+                                    r(res[0].id)
+                                } else {
+                                    r(null);
+                                }
+
+                            }
+                        )
+                    } else {
+                        r(null);
+                    }
                 }
 
             }
@@ -26,11 +42,21 @@ export default async function attributesWorker(attribute, attributeValue, catego
         db_connection.query(
             `INSERT INTO  attributes_values WHERE (attribute, value_name) VALUES ("${attributeId}", "${attributeValue}")`,
             function (err, res) {
-                if (err) console.log('attributesWorker err attributeExists #adk3nc0', err);
+
                 if (res) {
                     r(resdata.insertId)
                 } else {
-                    r(null);
+                    db_connection.query(
+                        `SELECT * FROM attributes_values WHERE attribute = ${attributeId} AND value_name = "${attributeValue}"`,
+                        function (err, res) {
+                            if (err) console.log('attributesWorker err attributeExists #jc8_2d', err);
+                            if (res?.length) {
+                                r(res[0].id)
+                            } else {
+                                r(null);
+                            }
+                        }
+                    )
                 }
 
             }
