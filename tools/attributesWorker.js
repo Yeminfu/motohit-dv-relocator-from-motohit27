@@ -8,6 +8,8 @@ export default async function attributesWorker(attribute, attributeValue, catego
                 if (err) console.log('attributesWorker err attributeExists #adk3nc0', err);
                 if (res?.length) {
                     r(res[0].id)
+                } else {
+                    res(null);
                 }
 
             }
