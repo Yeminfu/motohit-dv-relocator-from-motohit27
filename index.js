@@ -8,6 +8,7 @@ import createProductInDB from './tools/createProductInDB.js';
 import db_connection from './tools/dbConnect.js';
 
 import imageWorker from './tools/imageWorker.js';
+import attributesWorker from './tools/attributesWorker.js';
 
 
 let defaultLinksIsOn = false;
@@ -46,6 +47,16 @@ console.log('go go go!');
 
     for (let index = 0; index < productsLinks.length; index++) {
         const { link, product_name, category_name } = productsLinks[index];
+
+        const categoryId = await (async () => {
+            const category = await new Promise(r => db_connection.query(`SELECT * FROM categories WHERE category_name="${category_name}"`, function (err, data) {
+                if (!data) r(null);
+                if (!data[0]) r(null)
+                r(data[0].id);
+            }));
+            return category;
+        })();
+
         // console.log({ link, product_name, category_name });
         console.log(`product ${index} from ${productsLinks.length - 1}`);
         // const dataFromProductPage = await getDataFromProductPage(link, page);
@@ -65,6 +76,20 @@ console.log('go go go!');
                 const link = imagesLinks[index];
                 await imageWorker(link, productId);
             }
+        }
+
+        if (attributes?.length) {
+            for (let index = 0; index < attributes.length; index++) {
+                const { attribute, value } = attributes[index];
+                
+                await attributesWorker(
+                    attribute,
+                    value,
+                    categoryId,
+                    productId
+                );
+            }
+            // attributesWorker()
         }
 
         console.log({
