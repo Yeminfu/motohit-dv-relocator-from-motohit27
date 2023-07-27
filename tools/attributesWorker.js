@@ -39,7 +39,7 @@ export default async function attributesWorker(attribute, attributeValue, catego
 
 
     let attributeValueId = await new Promise(r => {
-        const query = `INSERT INTO products (attribute, value_name) VALUES (?, ?)`;
+        const query = `INSERT INTO attributes_values (attribute, value_name) VALUES (?, ?)`;
         const values = [attributeId, attributeValue];
         db_connection.query(
             query, values,
