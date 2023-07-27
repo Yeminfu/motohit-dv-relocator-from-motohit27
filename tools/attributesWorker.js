@@ -15,7 +15,7 @@ export default async function attributesWorker(attribute, attributeValue, catego
                         db_connection.query(
                             `SELECT * FROM attributes WHERE category = ${categoryId} AND attribute_name = "${attribute}"`,
                             function (err, res) {
-                                if (err) console.log('attributesWorker err attributeExists #adk3nc0', err);
+                                if (err) console.log('err', err);
                                 if (res?.length) {
                                     r(res[0].id)
                                 } else {
