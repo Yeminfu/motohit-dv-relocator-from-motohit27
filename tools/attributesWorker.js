@@ -4,7 +4,7 @@ export default async function attributesWorker(attribute, attributeValue, catego
 
     let attributeId = await new Promise(r => {
         db_connection.query(
-            `INSERT INTO  attributes WHERE (attribute_name, category) VALUES ("${attribute}", "${categoryId}")`,
+            `INSERT INTO attributes (attribute_name, category) VALUES ("${attribute}", "${categoryId}")`,
             function (err, res) {
                 if (err) console.log('attributesWorker err attributeExists #adk3nc0', err);
                 if (res) {
