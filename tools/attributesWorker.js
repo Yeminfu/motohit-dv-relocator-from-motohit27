@@ -1,7 +1,7 @@
 import db_connection from "./dbConnect.js";
 
 export default async function attributesWorker(attribute, attributeValue, categoryId, productId) {
-
+    console.log('начали сохранять атрибуты');
     const attributeId = await new Promise(r => {
         db_connection.query(
             `SELECT * FROM attributes WHERE category = ${categoryId} AND attribute_name = "${attribute}"`,
@@ -41,5 +41,7 @@ export default async function attributesWorker(attribute, attributeValue, catego
             }
         )
     });
+    
+    console.log('закончили сохранять атрибуты');
 
 }
