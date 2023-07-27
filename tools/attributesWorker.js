@@ -1,13 +1,14 @@
 import db_connection from "./dbConnect.js";
 
 export default async function attributesWorker(attribute, attributeValue, categoryId, productId) {
-    const attributeId = await new Promise(r => {
+
+    let attributeId = await new Promise(r => {
         db_connection.query(
-            `SELECT * FROM attributes WHERE category = ${categoryId} AND attribute_name = "${attribute}"`,
+            `INSERT INTO  attributes WHERE (attribute_name, category) VALUES ("${attribute}", "${categoryId}")`,
             function (err, res) {
                 if (err) console.log('attributesWorker err attributeExists #adk3nc0', err);
-                if (res?.length) {
-                    r(res[0].id)
+                if (res) {
+                    r(resdata.insertId)
                 } else {
                     r(null);
                 }
@@ -20,21 +21,23 @@ export default async function attributesWorker(attribute, attributeValue, catego
         console.log('Ошибка #c2jkx324'); return;
     }
 
-    const attributeValueId = await new Promise(r => {
+
+    let attributeValueId = await new Promise(r => {
         db_connection.query(
-            `SELECT * FROM attributes_values WHERE attribute = ${attributeId} AND value_name = "${attributeValue}"`,
+            `INSERT INTO  attributes_values WHERE (attribute, value_name) VALUES ("${attributeId}", "${attributeValue}")`,
             function (err, res) {
-                if (err) console.log('attributesWorker err attributeExists #jc8_2d', err);
-                if (res?.length) {
-                    r(res[0].id)
+                if (err) console.log('attributesWorker err attributeExists #adk3nc0', err);
+                if (res) {
+                    r(resdata.insertId)
                 } else {
                     r(null);
                 }
+
             }
         )
     });
 
-    if(!attributeValueId){
+    if (!attributeValueId) {
         console.log('Ошибка #cn47jsdc'); return;
     }
 
