@@ -46,7 +46,7 @@ console.log('go go go!');
     }
 
     for (let index = 0; index < productsLinks.length; index++) {
-        const { link, product_name, category_name } = productsLinks[index];
+        const { link, category_name } = productsLinks[index];
 
         const categoryId = await (async () => {
             const category = await new Promise(r => db_connection.query(`SELECT * FROM categories WHERE category_name="${category_name}"`, function (err, data) {
@@ -81,7 +81,7 @@ console.log('go go go!');
         if (attributes?.length) {
             for (let index = 0; index < attributes.length; index++) {
                 const { attribute, value } = attributes[index];
-                
+
                 await attributesWorker(
                     attribute,
                     value,
@@ -92,12 +92,23 @@ console.log('go go go!');
             // attributesWorker()
         }
 
-        console.log({
-            productId,
-            youtubeLink,
-            attributes,
-            // imagesLinks
-        });
+        if (youtubeLink) {
+            await new Promise(r => {
+                db_connection.query(`INSERT INTO media (type, name, essense_id) VALUES ("product_video", "${youtubeLink}", "${productId}")`),
+                    function (err, res) {
+                        if (err) { console.log('err #c83u2iok'); }
+                        console.log(res);
+                        r()
+                    }
+            })
+        }
+
+        // console.log({
+        //     productId,
+        //     youtubeLink,
+        //     // attributes,
+        //     // imagesLinks
+        // });
         // break;
         // console.log('dataFromProductPage', dataFromProductPage);
     }
