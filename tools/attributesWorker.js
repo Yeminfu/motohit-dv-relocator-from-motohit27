@@ -42,8 +42,9 @@ export default async function attributesWorker(attribute, attributeValue, catego
         db_connection.query(
             `INSERT INTO  attributes_values WHERE (attribute, value_name) VALUES ("${attributeId}", "${attributeValue}")`,
             function (err, res) {
-
+                console.log('err', err);
                 if (res) {
+                    console.log('добавили начение атрибута');
                     r(resdata.insertId)
                 } else {
                     db_connection.query(
