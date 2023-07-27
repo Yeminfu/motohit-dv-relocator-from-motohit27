@@ -42,9 +42,9 @@ export default async function attributesWorker(attribute, attributeValue, catego
         db_connection.query(
             `INSERT INTO attributes_values (attribute, value_name) VALUES ("${attributeId}", "${attributeValue}")`,
             function (err, res) {
-                console.log('err', err);
+                if (err) console.log('err', err);
                 if (res) {
-                    console.log('добавили начение атрибута');
+                    // console.log('добавили начение атрибута');
                     r(res.insertId)
                 } else {
                     db_connection.query(
@@ -73,7 +73,7 @@ export default async function attributesWorker(attribute, attributeValue, catego
             `INSERT INTO attr_prod_relation (attribute, attribute_value, product) VALUES (${attributeId}, ${attributeValueId}, ${productId})`,
             function (err, res) {
                 if (err) console.log('attributesWorker err attributeExists #n4_cs', err);
-                console.log('Добавили атрибут', res.insertId, JSON.stringify({ attribute, attributeValue, categoryId, productId }));
+                // console.log('Добавили атрибут', res.insertId, JSON.stringify({ attribute, attributeValue, categoryId, productId }));
                 r();
             }
         )
