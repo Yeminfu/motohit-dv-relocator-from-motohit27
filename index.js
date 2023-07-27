@@ -9,6 +9,7 @@ import db_connection from './tools/dbConnect.js';
 
 import imageWorker from './tools/imageWorker.js';
 import attributesWorker from './tools/attributesWorker.js';
+import clearProducts from './tools/clearProducts.js';
 
 
 let defaultLinksIsOn = false;
@@ -16,6 +17,8 @@ console.log('go go go!');
 
 
 (async () => {
+
+    clearProducts();
 
     const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'], });
     const page = await browser.newPage();
