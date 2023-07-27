@@ -45,7 +45,7 @@ export default async function attributesWorker(attribute, attributeValue, catego
                 console.log('err', err);
                 if (res) {
                     console.log('добавили начение атрибута');
-                    r(resdata.insertId)
+                    r(res.insertId)
                 } else {
                     db_connection.query(
                         `SELECT * FROM attributes_values WHERE attribute = ${attributeId} AND value_name = "${attributeValue}"`,
