@@ -17,7 +17,6 @@ console.log('go go go!');
 
 (async () => {
 
-
     const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'], });
     const page = await browser.newPage();
 
@@ -37,12 +36,9 @@ console.log('go go go!');
     for (let index = 0; index < links.length; index++) {
         const link = links[index];
         console.log(`category ${index} from ${links.length - 1}`);
-        // console.log('link', link);
         const { products, ...asd } = await getDataFromCategoryPage(page, link);
-        // console.log({ products, asd });
         if (!products) continue;
         productsLinks.push(...products);
-        // break;
     }
 
     for (let index = 0; index < productsLinks.length; index++) {
@@ -57,9 +53,7 @@ console.log('go go go!');
             return category;
         })();
 
-        // console.log({ link, product_name, category_name });
         console.log(`product ${index} from ${productsLinks.length - 1}`);
-        // const dataFromProductPage = await getDataFromProductPage(link, page);
 
         const {
             youtubeLink,
@@ -68,7 +62,6 @@ console.log('go go go!');
             ...dataFromProductPage
         } = await getDataFromProductPage(link, page);
 
-        // createProductInDB(category_name, dataFromProductPage, page)
         const productId = await createProductInDB(category_name, dataFromProductPage, page)
 
         if (imagesLinks?.length) {
@@ -89,7 +82,6 @@ console.log('go go go!');
                     productId
                 );
             }
-            // attributesWorker()
         }
 
         if (youtubeLink) {
@@ -102,15 +94,6 @@ console.log('go go go!');
                     }
             })
         }
-
-        // console.log({
-        //     productId,
-        //     youtubeLink,
-        //     // attributes,
-        //     // imagesLinks
-        // });
-        // break;
-        // console.log('dataFromProductPage', dataFromProductPage);
     }
 
     await browser.close();
