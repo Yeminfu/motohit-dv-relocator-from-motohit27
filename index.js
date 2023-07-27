@@ -87,6 +87,7 @@ console.log('go go go!');
         }
 
         if (youtubeLink) {
+            console.log('начали работать с youtubeLink', youtubeLink);
             await new Promise(r => {
                 db_connection.query(`INSERT INTO media (type, name, essense_id) VALUES ("product_video", "${youtubeLink}", "${productId}")`),
                     function (err, res) {
@@ -95,6 +96,7 @@ console.log('go go go!');
                         r()
                     }
             })
+            console.log('закончили работать с youtubeLink', youtubeLink);
         }
     }
 
