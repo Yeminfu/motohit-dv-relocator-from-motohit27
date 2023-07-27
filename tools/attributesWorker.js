@@ -27,10 +27,16 @@ export default async function attributesWorker(attribute, attributeValue, catego
                 if (err) console.log('attributesWorker err attributeExists #jc8_2d', err);
                 if (res?.length) {
                     r(res[0].id)
+                } else {
+                    res(null);
                 }
             }
         )
     });
+
+    if(!attributeValueId){
+        console.log('Ошибка #cn47jsdc'); return;
+    }
 
     await new Promise(r => {
         db_connection.query(
