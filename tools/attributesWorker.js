@@ -8,7 +8,7 @@ export default async function attributesWorker(attribute, attributeValue, catego
             function (err, res) {
                 if (err) console.log('attributesWorker err attributeExists #adk3nc0', err);
                 if (res) {
-                    r(resdata.insertId)
+                    r(res.insertId)
                 } else {
                     r(null);
                 }
