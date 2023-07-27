@@ -72,6 +72,7 @@ console.log('go go go!');
         }
 
         if (attributes?.length) {
+            console.log('начали работать с атрибутами');
             for (let index = 0; index < attributes.length; index++) {
                 const { attribute, value } = attributes[index];
 
@@ -82,6 +83,7 @@ console.log('go go go!');
                     productId
                 );
             }
+            console.log('закончили работать с атрибутами');
         }
 
         if (youtubeLink) {
