@@ -36,7 +36,8 @@ export default async function attributesWorker(attribute, attributeValue, catego
             `INSERT INTO attr_prod_relation (attribute, attribute_value, product) VALUES (${attributeId}, ${attributeValueId}, ${productId})`,
             function (err, res) {
                 if (err) console.log('attributesWorker err attributeExists #n4_cs', err);
-                console.log('Добавили атрибут', res.insertId, JSON.stringify({attribute, attributeValue, categoryId, productId}));
+                console.log('Добавили атрибут', res.insertId, JSON.stringify({ attribute, attributeValue, categoryId, productId }));
+                r();
             }
         )
     });
