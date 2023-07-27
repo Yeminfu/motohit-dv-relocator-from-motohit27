@@ -58,6 +58,10 @@ console.log('go go go!');
 
         console.log(`product ${index} from ${productsLinks.length - 1}`);
 
+        console.log('productLink', link);
+
+
+
         const {
             youtubeLink,
             attributes,
@@ -78,7 +82,6 @@ console.log('go go go!');
             console.log('начали работать с атрибутами');
             for (let index = 0; index < attributes.length; index++) {
                 const { attribute, value } = attributes[index];
-
                 await attributesWorker(
                     attribute,
                     value,
