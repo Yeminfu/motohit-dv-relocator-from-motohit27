@@ -89,12 +89,16 @@ console.log('go go go!');
         if (youtubeLink) {
             console.log('начали работать с youtubeLink', youtubeLink);
             await new Promise(r => {
-                db_connection.query(`INSERT INTO media (type, name, essense_id) VALUES ("product_video", "${youtubeLink}", "${productId}")`),
+                const qs = `INSERT INTO media (type, name, essense_id) VALUES ("product_video", "${youtubeLink}", "${productId}")`;
+                // console.log('qs', );
+                db_connection.query(
+                    qs,
                     function (err, res) {
                         if (err) { console.log('err #c83u2iok'); }
                         console.log(res);
                         r()
                     }
+                )
             })
             console.log('закончили работать с youtubeLink', youtubeLink);
         }
