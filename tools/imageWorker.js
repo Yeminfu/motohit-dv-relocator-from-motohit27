@@ -3,7 +3,7 @@ import fs from "fs";
 import db_connection from "./dbConnect.js";
 
 export default async function imageWorker(link, productId) {
-    const imageName = link.split("/").pop();
+    const imageName = link.split("/").pop().replace(";");
 
     const imageDownloaded = await imageLoader(link, imageName);
     if (imageDownloaded) {

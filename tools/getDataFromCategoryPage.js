@@ -1,5 +1,5 @@
 export default async function getProductsFromCategoryPage(page, link) {
-    await page.goto(link);
+    await page.goto(link, { timeout: 0 });
 
     await page.waitForSelector('h1');
 
