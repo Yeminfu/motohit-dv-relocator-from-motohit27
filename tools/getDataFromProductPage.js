@@ -69,8 +69,7 @@ export default async function getDataFromProductPage(link, page) {
 
     });
     // console.log({productData});
-    
-    console.log('productData', JSON.stringify(productData, null, 2));
+
 
     return productData;
 }
