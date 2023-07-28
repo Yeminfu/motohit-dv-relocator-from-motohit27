@@ -43,10 +43,13 @@ export default async function getDataFromProductPage(link, page) {
         const attributesTableNode = document.querySelector('table.table.table-sm.table-bordered');
         const rowsNodes = attributesTableNode?.querySelectorAll('tbody tr');
         const attributes = rowsNodes?.length
-            ? Array.from(rowsNodes).map(x => ({
-                attribute: x.querySelectorAll('td')[0].innerText,
-                value: x.querySelectorAll('td')[1].innerText,
-            }))
+            ?
+            Array.from(rowsNodes)
+                .map(x => ({
+                    attribute: x.querySelectorAll('td')[0]?.innerText,
+                    value: x.querySelectorAll('td')[1]?.innerText,
+                }))
+                .filter(x => x.attribute && x.value)
             : null;
 
         const iframe = document.querySelector('iframe'); // YOUTUBE
@@ -61,10 +64,13 @@ export default async function getDataFromProductPage(link, page) {
             attributes,
             imagesLinks,
         };
-
         // return outputData.youtubeLink;
         return outputData;
 
     });
+    // console.log({productData});
+    
+    console.log('productData', JSON.stringify(productData, null, 2));
+
     return productData;
 }
