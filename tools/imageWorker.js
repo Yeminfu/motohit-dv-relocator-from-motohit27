@@ -4,7 +4,7 @@ import db_connection from "./dbConnect.js";
 
 export default async function imageWorker(link, productId) {
     const imageName = link.split("/").pop().replace(";");
-
+    console.log('imageName', imageName);
     const imageDownloaded = await imageLoader(link, imageName);
     if (imageDownloaded) {
         await new Promise(r => {
