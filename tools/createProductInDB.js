@@ -13,8 +13,18 @@ export default async function createProductInDB(category_name, dataFromProductPa
         return category;
     })();
 
-    const description = dataFromProductPage.description
-        ? dataFromProductPage.description : "";
+    // const description = dataFromProductPage.description
+    //     ? dataFromProductPage.description : "";
+
+    const description = !!dataFromProductPage.description
+        ? (() => {
+            const html = dataFromProductPage.description;
+            const $ = cheerio.load(html);
+            $('*').removeAttr('');
+            // $('html, head, body').remove();
+            return $.html();
+        })()
+        : "";
 
     const values = [
         ["product_name", `"${dataFromProductPage.product_name}"`],
