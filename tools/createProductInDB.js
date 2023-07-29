@@ -14,18 +14,21 @@ export default async function createProductInDB(category_name, dataFromProductPa
         return category;
     })();
 
-    // const description = dataFromProductPage.description
-    //     ? dataFromProductPage.description : "";
-
     const description = !!dataFromProductPage.description
         ? (() => {
             const html = dataFromProductPage.description;
             const $ = cheerio.load(html);
-            $('*').removeAttr('');
-            // $('html, head, body').remove();
+            $('*').each(function () {
+                const attributes = Object.keys($(this).get(0).attribs);
+                attributes.forEach(attribute => {
+                    $(this).removeAttr(attribute)
+                });
+            });
+            $('html, head, body').replaceWith($('html, head, body').html())
             return $.html();
         })()
         : "";
+
 
     const values = [
         ["product_name", `"${dataFromProductPage.product_name}"`],
