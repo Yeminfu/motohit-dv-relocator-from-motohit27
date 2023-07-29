@@ -1,7 +1,6 @@
 import transliterator from './transliterator.js';
 import slugify from 'slugify';
 import db_connection from './dbConnect.js';
-import * as cheerio from 'cheerio';
 
 export default async function createProductInDB(category_name, dataFromProductPage) {
 
@@ -14,44 +13,30 @@ export default async function createProductInDB(category_name, dataFromProductPa
         return category;
     })();
 
-    const description = !!dataFromProductPage.description
-        ? (() => {
-            const html = dataFromProductPage.description;
-            const $ = cheerio.load(html);
-            $('*').removeAttr('');
-            $('html, head, body').remove();
-            return JSON.stringify($.html());
-        })()
-        : null;
-
-    console.log('description', description);
-
-    // console.log('checkvalues>>>', {
-    //     'dataFromProductPage.price': dataFromProductPage.price,
-    //     'dataFromProductPage.price ? dataFromProductPage.price : 0': dataFromProductPage.price ? dataFromProductPage.price : 0,
-    //     'description': description,
-    // });
+    const description = dataFromProductPage.description
+        ? dataFromProductPage.description : "";
 
     const values = [
-        ["product_name", `${JSON.stringify(dataFromProductPage.product_name)}`],
+        ["product_name", `"${dataFromProductPage.product_name}"`],
         ["slug", `"${slugify(transliterator(dataFromProductPage.product_name.replace(/[^ a-zA-Zа-яА-Я0-9-]/igm, "")))}"`],
         ["description", `${description}`],
         ["price", dataFromProductPage.price ? dataFromProductPage.price : 0],
         ["category", categoryId],
     ];
 
-    const qs = `INSERT INTO products ( ${values.map(x => x[0]).join(", ")} ) VALUES ( ${values.map(x => x[1]).join(", ")} )`;
+    const qs = `INSERT INTO products ( ${values.map(x => x[0]).join(", ")} ) VALUES ( ${values.map(_ => "?").join(", ")} )`;
 
-    // console.log(qs);
 
-    const productId = await new Promise(r => db_connection.query(qs, function (err, data) {
-        if (err) {
-        }
-        console.log('err', err);
-        r(data.insertId);
-    }));
+    const productId = await new Promise(r =>
+        db_connection.query(
+            qs, values.map(x => x[1]),
+            function (err, data) {
+                if (err) {
+                }
+                console.log('err', err);
+                r(data.insertId);
+            }));
 
-    // console.log('productId', productId);
     return productId;
 
 }
