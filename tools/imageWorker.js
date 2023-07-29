@@ -3,7 +3,7 @@ import fs from "fs";
 import db_connection from "./dbConnect.js";
 
 export default async function imageWorker(link, productId) {
-    const imageName = link.split("/").pop().replace(";");
+    const imageName = link.split("/").pop();
     console.log('imageName', imageName);
     const imageDownloaded = await imageLoader(link, imageName);
     if (imageDownloaded) {
@@ -30,7 +30,7 @@ async function imageLoader(uri, filename) {
         r =>
             request.head(uri, function (err, res, body) {
                 if (res.headers['content-length']) {
-                    const filePath = `${process.env.IMAGES_FOLDER}/${filename};`
+                    const filePath = `${process.env.IMAGES_FOLDER}/${filename}`;
                     request(uri).pipe(fs.createWriteStream(filePath)).on('close', () => null);
                     r(true);
                 } else {
