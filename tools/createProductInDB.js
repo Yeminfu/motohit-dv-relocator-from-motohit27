@@ -24,6 +24,8 @@ export default async function createProductInDB(category_name, dataFromProductPa
         })()
         : null;
 
+    console.log('description', description);
+
     // console.log('checkvalues>>>', {
     //     'dataFromProductPage.price': dataFromProductPage.price,
     //     'dataFromProductPage.price ? dataFromProductPage.price : 0': dataFromProductPage.price ? dataFromProductPage.price : 0,
