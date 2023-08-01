@@ -1,4 +1,5 @@
 export default async function getProductsFromCategoryPage(page, link) {
+    console.log('getProductsFromCategoryPage');
     await page.goto(link, { timeout: 0 });
 
     await page.waitForSelector('h1');
@@ -25,5 +26,6 @@ export default async function getProductsFromCategoryPage(page, link) {
 
         return productsNodesArrayWithContent;
     });
+    console.log('#getProductsFromCategoryPage');
     return { category_name, products };
 }
