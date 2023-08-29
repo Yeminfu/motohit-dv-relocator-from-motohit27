@@ -1,6 +1,6 @@
 import request from "request";
 import fs from "fs";
-import db_connection from "./dbConnect.js";
+import db_connection, { pool } from "./dbConnect.js";
 
 export default async function imageWorker(link, productId) {
     const imageName = link.split("/").pop();
