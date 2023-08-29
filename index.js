@@ -50,7 +50,13 @@ console.log('go go go!');
         }
 
         if (products?.length) {
-            await productWorker(href, category_name, page);
+
+            for (let index = 0; index < products.length; index++) {
+
+                const { link, category_name } = products[index];
+
+                await productWorker(link, category_name, page);
+            }
         }
 
     }
@@ -62,12 +68,13 @@ console.log('go go go!');
 
 
 async function productWorker(link, category_name, page) {
-
+    console.log('productworker');
     const categoryId = await (async () => {
         const category = await new Promise(r => pool.query(
             `SELECT * FROM categories WHERE category_name=?`,
             [category_name],
             function (err, data) {
+                if (err) console.log('err #adasdasd', err);
                 if (!data) r(null);
                 if (!data[0]) r(null);
                 r(data[0].id);
