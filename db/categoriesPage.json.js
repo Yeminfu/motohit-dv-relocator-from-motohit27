@@ -1,39 +1,39 @@
 export default [
-    // {
-    //     "href": "https://мотохит27.рф/product-category/электро-транспорт/электромамокаты/",
-    //     "innerText": "Электросамокаты",
-    //     "id_first": true
-    // },
-    // {
-    //     "href": "https://мотохит27.рф/product-category/электро-транспорт/электровелосипеды/",
-    //     "innerText": "Электровелосипеды",
-    //     "id_first": true
-    // },
-    // {
-    //     "href": "https://мотохит27.рф/product-category/электро-транспорт/komplectel/",
-    //     "innerText": "Комплекты для электровелосипедов",
-    //     "id_first": true
-    // },
-    // {
-    //     "href": "https://мотохит27.рф/product-category/мотоциклы-и-мопеды/",
-    //     "innerText": "Мотоциклы и мопеды",
-    //     "id_first": true
-    // },
-    // {
-    //     "href": "https://мотохит27.рф/product-category/мотоциклы-и-мопеды/?product-page=2",
-    //     "innerText": "Мотоциклы и мопеды",
-    //     "id_first": false
-    // },
-    // {
-    //     "href": "https://мотохит27.рф/product-category/квадроциклы/",
-    //     "innerText": "Квадроциклы",
-    //     "id_first": true
-    // },
-    // {
-    //     "href": "https://мотохит27.рф/product-category/снегоходы-буксировщики-болотоходы/",
-    //     "innerText": "Снегоходы, Буксировщики, Болотоходы",
-    //     "id_first": true
-    // },
+    {
+        "href": "https://мотохит27.рф/product-category/электро-транспорт/электромамокаты/",
+        "innerText": "Электросамокаты",
+        "id_first": true
+    },
+    {
+        "href": "https://мотохит27.рф/product-category/электро-транспорт/электровелосипеды/",
+        "innerText": "Электровелосипеды",
+        "id_first": true
+    },
+    {
+        "href": "https://мотохит27.рф/product-category/электро-транспорт/komplectel/",
+        "innerText": "Комплекты для электровелосипедов",
+        "id_first": true
+    },
+    {
+        "href": "https://мотохит27.рф/product-category/мотоциклы-и-мопеды/",
+        "innerText": "Мотоциклы и мопеды",
+        "id_first": true
+    },
+    {
+        "href": "https://мотохит27.рф/product-category/мотоциклы-и-мопеды/?product-page=2",
+        "innerText": "Мотоциклы и мопеды",
+        "id_first": false
+    },
+    {
+        "href": "https://мотохит27.рф/product-category/квадроциклы/",
+        "innerText": "Квадроциклы",
+        "id_first": true
+    },
+    {
+        "href": "https://мотохит27.рф/product-category/снегоходы-буксировщики-болотоходы/",
+        "innerText": "Снегоходы, Буксировщики, Болотоходы",
+        "id_first": true
+    },
     {
         "href": "https://мотохит27.рф/product-category/лодки/boats/",
         "innerText": "Лодки ПВХ",
