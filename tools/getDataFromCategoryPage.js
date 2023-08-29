@@ -33,9 +33,5 @@ export default async function getProductsFromCategoryPage(page, link) {
 
     const video = await page.evaluate(() => Array.from(document.querySelectorAll('iframe')).map(iframe => iframe.src) );
 
-
-    // const video = Array.from(document.querySelectorAll('iframe')).map(iframe => iframe.src)
-
-    console.log('#getProductsFromCategoryPage');
     return { category_name, products, video };
 }

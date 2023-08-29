@@ -27,7 +27,7 @@ console.log('go go go!');
         const { href, } = categories[index];
         // console.log(categoryPage);
         const { category_name, products, video } = await getDataFromCategoryPage(page, href);
-        console.log({category_name, products: products.length, video});
+        console.log({ href, category_name, products: products.length, video });
     }
 
     return;
