@@ -44,7 +44,7 @@ export default async function attributesWorker(attribute, attributeValue, catego
         db_connection.query(
             query, values,
             function (err, res) {
-                if (err) console.log('err', err);
+                if (err) console.log('err #clcmd9k3m', err);
                 if (res) {
                     // console.log('добавили начение атрибута');
                     r(res.insertId)
