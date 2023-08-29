@@ -7,8 +7,9 @@ export default async function imageWorker(link, productId) {
     const imageDownloaded = await imageLoader(link, imageName);
     if (imageDownloaded) {
         await new Promise(r => {
-            db_connection.query(
-                `INSERT INTO media (type, name, essense_id) VALUES ("product_image", "${imageName}", ${productId} )`,
+            pool.query(
+                `INSERT INTO media (type, name, essense_id) VALUES ("product_image", ?, ? )`,
+                [imageName, productId],
                 function (err) {
                     if (err) {
                         console.log('insert Image To DB error', err);

@@ -1,4 +1,4 @@
-import db_connection from "./dbConnect.js";
+import db_connection, { pool } from "./dbConnect.js";
 
 export default async function attributesWorker(attribute, attributeValue, categoryId, productId) {
 
@@ -41,7 +41,7 @@ export default async function attributesWorker(attribute, attributeValue, catego
     let attributeValueId = await new Promise(r => {
         const query = `INSERT INTO attributes_values (attribute, value_name) VALUES (?, ?)`;
         const values = [attributeId, attributeValue];
-        db_connection.query(
+        pool.query(
             query, values,
             function (err, res) {
                 if (err) console.log('err #clcmd9k3m', err);
@@ -49,8 +49,9 @@ export default async function attributesWorker(attribute, attributeValue, catego
                     // console.log('добавили начение атрибута');
                     r(res.insertId)
                 } else {
-                    db_connection.query(
-                        `SELECT * FROM attributes_values WHERE attribute = ${attributeId} AND value_name = "${attributeValue}"`,
+                    pool.query(
+                        `SELECT * FROM attributes_values WHERE attribute = ? AND value_name = ?`,
+                        [attributeId, attributeValue],
                         function (err, res) {
                             if (err) console.log('attributesWorker err attributeExists #jc8_2d', err);
                             if (res?.length) {
@@ -72,7 +73,8 @@ export default async function attributesWorker(attribute, attributeValue, catego
 
     await new Promise(r => {
         db_connection.query(
-            `INSERT INTO attr_prod_relation (attribute, attribute_value, product) VALUES (${attributeId}, ${attributeValueId}, ${productId})`,
+            `INSERT INTO attr_prod_relation (attribute, attribute_value, product) VALUES (?, ?, ?)`,
+            [attributeId, attributeValueId, productId],
             function (err, res) {
                 if (err) console.log('attributesWorker err attributeExists #n4_cs', err);
                 // console.log('Добавили атрибут', res.insertId, JSON.stringify({ attribute, attributeValue, categoryId, productId }));
