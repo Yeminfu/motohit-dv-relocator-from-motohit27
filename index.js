@@ -15,8 +15,8 @@ import clearProducts from './tools/clearProducts.js';
 console.log('go go go!');
 
 (async () => {
-    clearProducts();
-
+    await clearProducts();
+ 
     const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'], });
     const page = await browser.newPage();
 
