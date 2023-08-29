@@ -6,11 +6,13 @@ import * as cheerio from 'cheerio';
 export default async function createProductInDB(category_name, dataFromProductPage) {
 
     const categoryId = await (async () => {
-        const category = await new Promise(r => db_connection.query(`SELECT * FROM categories WHERE category_name="${category_name}"`, function (err, data) {
-            if (!data) r(null);
-            if (!data[0]) r(null)
-            r(data[0].id);
-        }));
+        const category = await new Promise(r => db_connection.query(`SELECT * FROM categories WHERE category_name="${category_name}"`,
+            function (err, data) {
+                if (err) console.log('err #sdfsmvksu', err);
+                if (!data) r(null);
+                if (!data[0]) r(null)
+                r(data[0].id);
+            }));
         return category;
     })();
 
@@ -45,8 +47,8 @@ export default async function createProductInDB(category_name, dataFromProductPa
             values.map(x => x[1]),
             function (err, data) {
                 if (err) {
+                    console.log('err #fdsfsdfkJ5', err);
                 }
-                console.log('err', err);
                 r(data.insertId);
             }));
 

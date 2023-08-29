@@ -6,7 +6,8 @@ export default async function attributesWorker(attribute, attributeValue, catego
         db_connection.query(
             `INSERT INTO attributes (attribute_name, category) VALUES ("${attribute}", "${categoryId}")`,
             function (err, res) {
-                if (err?.code !== "ER_DUP_ENTRY") console.log('attributesWorker err attributeExists #adk3nc0', err);
+                if (err && (err.code !== "ER_DUP_ENTRY")) { console.log('err #vjvfdmsa', err); }
+                // if ((err?.code) !== "ER_DUP_ENTRY") console.log('attributesWorker err attributeExists #adk3nc0', err);
                 if (res) {
                     r(res.insertId)
                 } else {
@@ -15,7 +16,7 @@ export default async function attributesWorker(attribute, attributeValue, catego
                         db_connection.query(
                             `SELECT * FROM attributes WHERE category = ${categoryId} AND attribute_name = "${attribute}"`,
                             function (err, res) {
-                                if (err) console.log('err', err);
+                                if (err) console.log('err #vnrudh6', err);
                                 if (res?.length) {
                                     r(res[0].id)
                                 } else {
@@ -44,7 +45,7 @@ export default async function attributesWorker(attribute, attributeValue, catego
         pool.query(
             query, values,
             function (err, res) {
-                if (err) console.log('err #clcmd9k3m', err);
+                if (err && err.code!=="ER_DUP_ENTRY") console.log('err #clcmd9k3m', err);
                 if (res) {
                     // console.log('добавили начение атрибута');
                     r(res.insertId)

@@ -1,12 +1,10 @@
 export default async function getProductsFromCategoryPage(page, link) {
-    console.log('getProductsFromCategoryPage');
     await page.goto(link, { timeout: 0 });
 
     await page.waitForSelector('h1');
 
     const category_name = await page.evaluate(() => document.querySelector('h1').innerText);
 
-    console.log('Зашли на страницу, получили category_name ', category_name);
     const products = await page.evaluate(function () {
 
         if (document.querySelector('.categorys')) return null;

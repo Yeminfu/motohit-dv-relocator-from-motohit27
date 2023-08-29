@@ -1,8 +1,8 @@
 export default async function getDataFromProductPage(link, page) {
-    await page.goto(link);
+    await page.goto(link, { timeout: 0 });
 
     await page.waitForSelector('h1');
-
+    
     const productData = await page.evaluate(function () {
 
         const imagesLinks = Array.from(document.querySelectorAll('#big-pic, .moto-slider-shorts img'))

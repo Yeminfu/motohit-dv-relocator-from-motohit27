@@ -1,7 +1,5 @@
 import puppeteer from 'puppeteer';
-import getLinksFromSidebar from './tools/getLinksFromSidebar.js';
 import getDataFromCategoryPage from './tools/getDataFromCategoryPage.js';
-// import defaultLinks from './db/defaultLinks.json.js';
 import categories from './db/categoriesPage.json.js';
 import getDataFromProductPage from './tools/getDataFromProductPage.js';
 
@@ -16,19 +14,20 @@ console.log('go go go!');
 
 (async () => {
     await clearProducts();
- 
     const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'], });
     const page = await browser.newPage();
 
     for (let index = 0; index < categories.length; index++) {
         const { href, is_first } = categories[index];
+        console.log('работаем с категорией', { href });
         const { category_name, products, video } = await getDataFromCategoryPage(page, href);
-
+        console.log({ category_name, products: products?.length, video: video?.length });
         const category_id = await new Promise(resolve => {
             pool.query(
                 "SELECT * FROM categories WHERE category_name = ?",
                 [category_name],
                 function (err, res) {
+                    if (err) { console.log("err #fjvfdf7syY", err); }
                     resolve(res.pop().id);
                 }
             )
@@ -42,6 +41,7 @@ console.log('go go go!');
                         "INSERT into media (type, name, essense_id) VALUES (?,?,?)",
                         ["category_video", videoLink, category_id],
                         function (err, res) {
+                            if (err) console.log('err #jgdfbuY');
                             resolve(1);
                         }
                     )
@@ -54,11 +54,11 @@ console.log('go go go!');
             for (let index = 0; index < products.length; index++) {
 
                 const { link, category_name } = products[index];
-
+                console.log('работаем с товаром', link);
                 await productWorker(link, category_name, page);
+                console.log('закончили работать с товаром');
             }
         }
-
     }
 
     await browser.close();
@@ -68,23 +68,18 @@ console.log('go go go!');
 
 
 async function productWorker(link, category_name, page) {
-    console.log('productworker');
     const categoryId = await (async () => {
         const category = await new Promise(r => pool.query(
             `SELECT * FROM categories WHERE category_name=?`,
             [category_name],
             function (err, data) {
-                if (err) console.log('err #adasdasd', err);
+                if (err) console.log('err #asdakk', err);
                 if (!data) r(null);
                 if (!data[0]) r(null);
                 r(data[0].id);
             }));
         return category;
     })();
-
-    console.log('productLink', link);
-
-
 
     const {
         youtubeLink,

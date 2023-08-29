@@ -12,9 +12,7 @@ export default async function imageWorker(link, productId) {
                 [imageName, productId],
                 function (err) {
                     if (err) {
-                        console.log('insert Image To DB error', err);
-                    } else {
-                        console.log('image saved');
+                        console.log('err #kfdsfvjUn4', err);
                     }
                     r();
                 }
