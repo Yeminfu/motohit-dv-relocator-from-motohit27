@@ -2,6 +2,7 @@ import puppeteer from 'puppeteer';
 import getLinksFromSidebar from './tools/getLinksFromSidebar.js';
 import getDataFromCategoryPage from './tools/getDataFromCategoryPage.js';
 import defaultLinks from './db/defaultLinks.json.js';
+import categories from './db/categoriesPage.json.js';
 import getDataFromProductPage from './tools/getDataFromProductPage.js';
 
 import createProductInDB from './tools/createProductInDB.js';
@@ -15,13 +16,23 @@ import clearProducts from './tools/clearProducts.js';
 let defaultLinksIsOn = false;
 console.log('go go go!');
 
-
 (async () => {
-
     clearProducts();
 
     const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'], });
     const page = await browser.newPage();
+
+
+    for (let index = 0; index < categories.length; index++) {
+        const { href, } = categories[index];
+        // console.log(categoryPage);
+        const { category_name, products, video } = await getDataFromCategoryPage(page, href);
+        console.log({category_name, products: products.length, video});
+    }
+
+    return;
+
+
 
 
     let links;

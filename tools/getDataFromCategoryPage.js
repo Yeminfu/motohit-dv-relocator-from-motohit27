@@ -23,11 +23,19 @@ export default async function getProductsFromCategoryPage(page, link) {
                 category_name: document.querySelector('h1').innerText,
                 product_name: x.querySelector('h2').innerText,
                 link: decodeURI(link.href),
+
             }
         });
 
         return productsNodesArrayWithContent;
     });
+
+
+    const video = await page.evaluate(() => Array.from(document.querySelectorAll('iframe')).map(iframe => iframe.src) );
+
+
+    // const video = Array.from(document.querySelectorAll('iframe')).map(iframe => iframe.src)
+
     console.log('#getProductsFromCategoryPage');
-    return { category_name, products };
+    return { category_name, products, video };
 }
