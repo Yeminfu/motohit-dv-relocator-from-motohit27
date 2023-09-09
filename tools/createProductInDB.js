@@ -31,12 +31,14 @@ export default async function createProductInDB(category_name, dataFromProductPa
         })()
         : "";
 
+    const stock_status_id = await getStockStatusIdByText(dataFromProductPage.stockStatusText);
     const values = [
         ["product_name", dataFromProductPage.product_name],
         ["slug", slugify(transliterator(dataFromProductPage.product_name.replace(/[^ a-zA-Zа-яА-Я0-9-]/igm, "")))],
         ["description", description],
         ["price", dataFromProductPage.price ? dataFromProductPage.price : 0],
         ["category", categoryId],
+        ["stock_status", stock_status_id],
     ];
 
     const qs = `INSERT INTO products ( ${values.map(x => x[0]).join(", ")} ) VALUES ( ${values.map(_ => "?").join(", ")} )`;
@@ -54,4 +56,20 @@ export default async function createProductInDB(category_name, dataFromProductPa
 
     return productId;
 
+}
+
+
+async function getStockStatusIdByText(text) {
+    return new Promise(resolve => {
+        db_connection.query(
+            "SELECT * FROM stock_statuses WHERE status_name = ?",
+            [text],
+            function (err, res) {
+                if (err) {
+                    console.log('err #kddasm', err);
+                }
+                resolve(res?.pop()?.id)
+            }
+        )
+    })
 }

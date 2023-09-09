@@ -2,7 +2,7 @@ export default async function getDataFromProductPage(link, page) {
     await page.goto(link, { timeout: 0 });
 
     await page.waitForSelector('h1');
-    
+
     const productData = await page.evaluate(function () {
 
         const imagesLinks = Array.from(document.querySelectorAll('#big-pic, .moto-slider-shorts img'))
@@ -40,6 +40,9 @@ export default async function getDataFromProductPage(link, page) {
         const priceText = document.querySelector('span.h5.font-weight-bold.r_price')?.innerText.replace(/[^0-9]/img, '');
         const price = priceText ? Number(priceText) : null;
 
+        const stockStatusElEments = document.querySelectorAll('.h5.font-weight-bold');
+        const stockStatusText = stockStatusElEments[1] ? stockStatusElEments[1].innerText : stockStatusElEments[0].innerText;
+
         const attributesTableNode = document.querySelector('table.table.table-sm.table-bordered');
         const rowsNodes = attributesTableNode?.querySelectorAll('tbody tr');
         const attributes = rowsNodes?.length
@@ -60,16 +63,12 @@ export default async function getDataFromProductPage(link, page) {
             product_name: document.querySelector('h1')?.innerText,
             description,
             price,
+            stockStatusText,
             youtubeLink,
             attributes,
             imagesLinks,
         };
-        // return outputData.youtubeLink;
         return outputData;
-
     });
-    // console.log({productData});
-
-
     return productData;
 }
