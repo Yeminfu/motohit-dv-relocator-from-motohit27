@@ -1,9 +1,10 @@
 export default async function getProductsFromCategoryPage(page, link) {
-    await page.goto(link);
+    await page.goto(link, { timeout: 0 });
 
     await page.waitForSelector('h1');
 
     const category_name = await page.evaluate(() => document.querySelector('h1').innerText);
+
     const products = await page.evaluate(function () {
 
         if (document.querySelector('.categorys')) return null;
@@ -20,10 +21,15 @@ export default async function getProductsFromCategoryPage(page, link) {
                 category_name: document.querySelector('h1').innerText,
                 product_name: x.querySelector('h2').innerText,
                 link: decodeURI(link.href),
+
             }
         });
 
         return productsNodesArrayWithContent;
     });
-    return { category_name, products };
+
+
+    const video = await page.evaluate(() => Array.from(document.querySelectorAll('iframe')).map(iframe => iframe.src));
+    console.log('products?.length', products?.length);
+    return { category_name, products, video };
 }
