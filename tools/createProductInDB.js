@@ -32,6 +32,7 @@ export default async function createProductInDB(category_name, dataFromProductPa
         : "";
 
     const stock_status_id = await getStockStatusIdByText(dataFromProductPage.stockStatusText);
+    console.log('stock_status_id', stock_status_id);
     const values = [
         ["product_name", dataFromProductPage.product_name],
         ["slug", slugify(transliterator(dataFromProductPage.product_name.replace(/[^ a-zA-Zа-яА-Я0-9-]/igm, "")))],
