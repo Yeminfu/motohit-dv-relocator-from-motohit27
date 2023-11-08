@@ -76,6 +76,11 @@ export default [
         "is_first": true
     },
     {
+        "href": "https://мотохит27.рф/product-category/подвесные-лодочные-моторы/лодочные-моторы/?product-page=2",
+        "innerText": "Лодочные моторы",
+        "is_first": false
+    },
+    {
         "href": "https://мотохит27.рф/product-category/подвесные-лодочные-моторы/водометные-насадки/",
         "innerText": "Водометы и водометные насадки",
         "is_first": true
