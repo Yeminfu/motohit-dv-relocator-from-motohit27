@@ -28,8 +28,6 @@ export default async function getProductsFromCategoryPage(page, link) {
         return productsNodesArrayWithContent;
     });
 
-
     const video = await page.evaluate(() => Array.from(document.querySelectorAll('iframe')).map(iframe => iframe.src));
-    console.log('products?.length', products?.length);
     return { category_name, products, video };
 }

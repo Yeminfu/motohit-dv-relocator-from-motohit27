@@ -19,7 +19,6 @@ console.log('go go go!');
 
     for (let index = 0; index < categories.length; index++) {
         const { href, is_first } = categories[index];
-        console.log('работаем с категорией', { href });
         const { category_name, products, video } = await getDataFromCategoryPage(page, href);
         console.log({ category_name, products: products?.length, video: video?.length });
         const category_id = await new Promise(resolve => {
@@ -50,13 +49,10 @@ console.log('go go go!');
         }
 
         if (products?.length) {
-
             for (let index = 0; index < products.length; index++) {
-
+                console.log('prod', index, products.length);
                 const { link, category_name } = products[index];
-                console.log('работаем с товаром', link);
                 await productWorker(link, category_name, page);
-                console.log('закончили работать с товаром');
             }
         }
     }
@@ -98,7 +94,6 @@ async function productWorker(link, category_name, page) {
     }
 
     if (attributes?.length) {
-        console.log('начали работать с атрибутами');
         for (let index = 0; index < attributes.length; index++) {
             const { attribute, value } = attributes[index];
             await attributesWorker(
@@ -108,22 +103,18 @@ async function productWorker(link, category_name, page) {
                 productId
             );
         }
-        console.log('закончили работать с атрибутами');
     }
 
     if (youtubeLink) {
-        console.log('начали работать с youtubeLink', youtubeLink);
         await new Promise(r => {
             pool.query(
                 `INSERT INTO media (type, name, essense_id) VALUES (?, ?, ?)`,
                 ['product_video', youtubeLink, productId],
                 function (err, res) {
                     if (err) { console.log('err #c83u2iok'); }
-                    console.log(res);
                     r()
                 }
             )
         })
-        console.log('закончили работать с youtubeLink', youtubeLink);
     }
 }
