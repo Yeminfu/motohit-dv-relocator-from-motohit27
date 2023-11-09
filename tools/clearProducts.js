@@ -54,7 +54,7 @@ async function saveCategory(category_name, parent) {
     const parentId = parent ? await getCategoryIdByName(parent) : null;
     return await db_connection.promise().query(
         "INSERT INTO categories (category_name,slug, parent) VALUES (?,?,?)",
-        [category_name, categorySlug, null]
+        [category_name, categorySlug, parentId]
     )
 }
 
