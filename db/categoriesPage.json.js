@@ -1,34 +1,34 @@
 export default [
-    // {
-    //     "href": "https://мотохит27.рф/product-category/электро-транспорт/электромамокаты/",
-    //     "innerText": "Электросамокаты",
-    //     "is_first": true
-    // },
-    // {
-    //     "href": "https://мотохит27.рф/product-category/электро-транспорт/электровелосипеды/",
-    //     "innerText": "Электровелосипеды",
-    //     "is_first": true
-    // },
-    // {
-    //     "href": "https://мотохит27.рф/product-category/электро-транспорт/komplectel/",
-    //     "innerText": "Комплекты для электровелосипедов",
-    //     "is_first": true
-    // },
-    // {
-    //     "href": "https://мотохит27.рф/product-category/мотоциклы-и-мопеды/",
-    //     "innerText": "Мотоциклы и мопеды",
-    //     "is_first": true
-    // },
-    // {
-    //     "href": "https://мотохит27.рф/product-category/мотоциклы-и-мопеды/?product-page=2",
-    //     "innerText": "Мотоциклы и мопеды",
-    //     "is_first": false
-    // },
-    // {
-    //     "href": "https://мотохит27.рф/product-category/квадроциклы/",
-    //     "innerText": "Квадроциклы",
-    //     "is_first": true
-    // },
+    {
+        "href": "https://мотохит27.рф/product-category/электро-транспорт/электромамокаты/",
+        "innerText": "Электросамокаты",
+        "is_first": true
+    },
+    {
+        "href": "https://мотохит27.рф/product-category/электро-транспорт/электровелосипеды/",
+        "innerText": "Электровелосипеды",
+        "is_first": true
+    },
+    {
+        "href": "https://мотохит27.рф/product-category/электро-транспорт/komplectel/",
+        "innerText": "Комплекты для электровелосипедов",
+        "is_first": true
+    },
+    {
+        "href": "https://мотохит27.рф/product-category/мотоциклы-и-мопеды/",
+        "innerText": "Мотоциклы и мопеды",
+        "is_first": true
+    },
+    {
+        "href": "https://мотохит27.рф/product-category/мотоциклы-и-мопеды/?product-page=2",
+        "innerText": "Мотоциклы и мопеды",
+        "is_first": false
+    },
+    {
+        "href": "https://мотохит27.рф/product-category/квадроциклы/",
+        "innerText": "Квадроциклы",
+        "is_first": true
+    },
     {
         "href": "https://мотохит27.рф/product-category/снегоходы-буксировщики-болотоходы/мотобуксировщики-купить-в-хабаровск/",
         "innerText": "Мотобуксировщики",
