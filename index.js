@@ -14,8 +14,69 @@ console.log('go go go!');
 
 (async () => {
     await clearProducts();
-    const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'], });
-    const page = await browser.newPage();
+
+    // const browser = await puppeteer.launch({ headless: "new", args: ['--no-sandbox'], });
+    // const page = await browser.newPage();
+
+    const products = await fetch("http://мотохит27.рф/wp-json/v1/products")
+        .then(x => x.json());
+
+    const stockStatuses = {
+        "instock": "в наличии в магазине",
+        "isenroute": "в пути наличии на складе",
+        "onbackorder": "под заказ",
+        "outofstock": "нет в наличии"
+    };
+
+    for (let index = 0; index < products.length; index++) {
+        const product = products[index];
+        const { price, name, stock_status, attributes, description, images, video, category } = product;
+
+        const productId = await createProductInDB(category, {
+            description,
+            stockStatusText: stockStatuses[stock_status],
+            product_name: name,
+            price,
+        }
+            // , page
+        );
+
+        if (!productId) continue;
+
+        // console.log(productId);
+
+        const categoryId = await getCategoryIdByName(category);
+
+
+        if (attributes?.length) {
+            for (let index = 0; index < attributes.length; index++) {
+                const [attribute, value] = attributes[index];
+                await attributesWorker(
+                    attribute,
+                    value,
+                    categoryId,
+                    productId
+                );
+            }
+        }
+
+        if (images?.length) {
+            for (let index = 0; index < images.length; index++) {
+                try {
+                    const link = images[index];
+                    if (link) await imageWorker(link, productId);
+                } catch (error) {
+                    console.log('хуйня с картинкой');
+                }
+            }
+        }
+
+        // break;
+        console.log(`${index + 1} из ${products.length}`);
+    }
+    console.log('всё');
+    return;
+
 
     for (let index = 0; index < categories.length; index++) {
         const { href, is_first } = categories[index];
@@ -117,4 +178,18 @@ async function productWorker(link, category_name, page) {
             )
         })
     }
+}
+
+
+async function getCategoryIdByName(category_name) {
+    const category = await new Promise(r => pool.query(
+        `SELECT * FROM categories WHERE category_name=?`,
+        [category_name],
+        function (err, data) {
+            if (err) console.log('err #asdakk', err);
+            if (!data) r(null);
+            if (!data[0]) r(null);
+            r(data[0].id);
+        }));
+    return category;
 }

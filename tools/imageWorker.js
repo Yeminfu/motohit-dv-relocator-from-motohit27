@@ -3,8 +3,17 @@ import fs from "fs";
 import db_connection, { pool } from "./dbConnect.js";
 
 export default async function imageWorker(link, productId) {
-    const imageName = link.split("/").pop();
-    const imageDownloaded = await imageLoader(link, imageName);
+    // console.log('linklinklink', link);
+
+    const parts = link.split("/");
+
+    const imageName = parts.pop();
+    // console.log('linklinklinklinklink', parts);
+
+    const encodedLink = parts.join('/') + "/" + encodeURIComponent(imageName);
+
+    const imageDownloaded = await imageLoader(encodedLink, imageName);
+
     if (imageDownloaded) {
         await new Promise(r => {
             pool.query(
@@ -22,18 +31,21 @@ export default async function imageWorker(link, productId) {
         console.log('no image');
     }
 }
-
+// https://xn--27-vlcpka1acz.xn--p1ai/wp-content/uploads/2023/11/AVR_4866-1-С-ТЕНЬЮ.webp
 async function imageLoader(uri, filename) {
     return await new Promise(
         r =>
-            request.head(uri, function (err, res, body) {
-                if (res.headers['content-length']) {
+            request.head(encodeURI(uri), function (err, res, body) {
+                if (res?.headers['content-length']) {
                     const filePath = `${process.env.IMAGES_FOLDER}/${filename}`;
                     request(uri).pipe(fs.createWriteStream(filePath)).on('close', () => null);
                     r(true);
                 } else {
                     r(false);
-                    console.log('no image');
+                    // console.log('no image', uri);
+                    // console.log('resres', res);
+                    // console.log('body', body);
+                    // console.log('err', err);
                 }
 
             })
