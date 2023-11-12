@@ -12,23 +12,27 @@ export default async function imageWorker(link, productId) {
 
     const encodedLink = parts.join('/') + "/" + encodeURIComponent(imageName);
 
-    const imageDownloaded = await imageLoader(encodedLink, imageName);
+    try {
+        const imageDownloaded = await imageLoader(encodedLink, imageName);
 
-    if (imageDownloaded) {
-        await new Promise(r => {
-            pool.query(
-                `INSERT INTO media (type, name, essense_id) VALUES ("product_image", ?, ? )`,
-                [imageName, productId],
-                function (err) {
-                    if (err) {
-                        console.log('err #kfdsfvjUn4', err);
+        if (imageDownloaded) {
+            await new Promise(r => {
+                pool.query(
+                    `INSERT INTO media (type, name, essense_id) VALUES ("product_image", ?, ? )`,
+                    [imageName, productId],
+                    function (err) {
+                        if (err) {
+                            console.log('err #kfdsfvjUn4', err);
+                        }
+                        r();
                     }
-                    r();
-                }
-            )
-        });
-    } else {
-        console.log('no image');
+                )
+            });
+        } else {
+            console.log('no image');
+        }
+    } catch (error) {
+        console.log('произошла неведомая хуйня #jfjd4', error);
     }
 }
 // https://xn--27-vlcpka1acz.xn--p1ai/wp-content/uploads/2023/11/AVR_4866-1-С-ТЕНЬЮ.webp

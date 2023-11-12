@@ -50,7 +50,9 @@ async function categoryWorker(cat, parent_name) {
 }
 
 async function saveCategory(category_name, parent) {
-    const categorySlug = slugify(transliterator(category_name));
+    const categorySlug = slugify(transliterator(category_name), {
+        remove: /[^a-zA-Z0-9 ]/g
+    });
     const parentId = parent ? await getCategoryIdByName(parent) : null;
     return await db_connection.promise().query(
         "INSERT INTO categories (category_name,slug, parent) VALUES (?,?,?)",

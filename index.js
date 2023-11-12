@@ -1,4 +1,3 @@
-import puppeteer from 'puppeteer';
 import getDataFromCategoryPage from './tools/getDataFromCategoryPage.js';
 import categories from './db/categoriesPage.json.js';
 import getDataFromProductPage from './tools/getDataFromProductPage.js';
@@ -84,108 +83,7 @@ console.log('go go go!');
     console.log('всё');
     return;
 
-
-    for (let index = 0; index < categories.length; index++) {
-        const { href, is_first } = categories[index];
-        const { category_name, products, video } = await getDataFromCategoryPage(page, href);
-        console.log({ category_name, products: products?.length, video: video?.length });
-        const category_id = await new Promise(resolve => {
-            pool.query(
-                "SELECT * FROM categories WHERE category_name = ?",
-                [category_name],
-                function (err, res) {
-                    if (err) { console.log("err #fjvfdf7syY", err); }
-                    resolve(res.pop().id);
-                }
-            )
-        });
-
-        if (video?.length && is_first) {
-            for (let index = 0; index < video.length; index++) {
-                const videoLink = video[index];
-                await new Promise(resolve => {
-                    pool.query(
-                        "INSERT into media (type, name, essense_id) VALUES (?,?,?)",
-                        ["category_video", videoLink, category_id],
-                        function (err, res) {
-                            if (err) console.log('err #jgdfbuY');
-                            resolve(1);
-                        }
-                    )
-                })
-            }
-        }
-
-        if (products?.length) {
-            for (let index = 0; index < products.length; index++) {
-                console.log('prod', index, products.length);
-                const { link, category_name } = products[index];
-                await productWorker(link, category_name, page);
-            }
-        }
-    }
-
-    await browser.close();
-    await db_connection.close();
-
 })();
-
-
-async function productWorker(link, category_name, page) {
-    const categoryId = await (async () => {
-        const category = await new Promise(r => pool.query(
-            `SELECT * FROM categories WHERE category_name=?`,
-            [category_name],
-            function (err, data) {
-                if (err) console.log('err #asdakk', err);
-                if (!data) r(null);
-                if (!data[0]) r(null);
-                r(data[0].id);
-            }));
-        return category;
-    })();
-
-    const {
-        youtubeLink,
-        attributes,
-        imagesLinks,
-        ...dataFromProductPage
-    } = await getDataFromProductPage(link, page);
-
-    const productId = await createProductInDB(category_name, dataFromProductPage, page)
-
-    if (imagesLinks?.length) {
-        for (let index = 0; index < imagesLinks.length; index++) {
-            const link = imagesLinks[index];
-            await imageWorker(link, productId);
-        }
-    }
-
-    if (attributes?.length) {
-        for (let index = 0; index < attributes.length; index++) {
-            const { attribute, value } = attributes[index];
-            await attributesWorker(
-                attribute,
-                value,
-                categoryId,
-                productId
-            );
-        }
-    }
-
-    if (youtubeLink) {
-        await new Promise(r => {
-            pool.query(
-                `INSERT INTO media (type, name, essense_id) VALUES (?, ?, ?)`,
-                ['product_video', youtubeLink, productId],
-                function (err, res) {
-                    if (err) { console.log('err #c83u2iok'); }
-                    r()
-                }
-            )
-        })
-    }
-}
 
 
 async function getCategoryIdByName(category_name) {
