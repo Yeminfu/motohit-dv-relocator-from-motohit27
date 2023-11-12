@@ -30,7 +30,7 @@ console.log('go go go!');
     // return;
     const stockStatuses = {
         "instock": "в наличии в магазине",
-        "isenroute": "в пути наличии на складе",
+        "isenroute": "в наличии на складе",
         "onbackorder": "под заказ",
         "outofstock": "нет в наличии"
     };
